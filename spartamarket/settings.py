@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'products',
     # third_party
     'django_seed',
+    'drf_spectacular',
 ]
 
 MIDDLEWARE = [
@@ -143,6 +144,8 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
+    # drf-spectacular
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
 # JWT 설정
@@ -150,6 +153,13 @@ from datetime import timedelta
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+}
+
+# SPECTACULAR 설정
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'DRF RESTful API',
+    'DESCRIPTION': 'Django DRF API Doc',
+    'VERSION': '1.0.0',
 }
 
 
