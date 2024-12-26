@@ -91,7 +91,7 @@ def resign(request):
         OpenApiExample(
             name="입력 예제",
             request_only=True,
-            value={"email": "test@test.com", "password": "password"},
+            value={"email": "admin@example.com", "password": "password"},
         ),
         OpenApiExample(
             name="결과 예제",

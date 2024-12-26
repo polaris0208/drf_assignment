@@ -146,6 +146,9 @@ REST_FRAMEWORK = {
     ),
     # drf-spectacular
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    # pagenation
+    'DEFAULT_PAGINATION_CLASS' : 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE' : 5,  # 페이지당 보여줄 개수
 }
 
 # JWT 설정
