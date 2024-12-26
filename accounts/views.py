@@ -11,7 +11,6 @@ from .serializers import (
     SignupSerializer,
     UserUpdateSerializer,
     UserProfileSerializer,
-    UserRequestSerializer,
     PasswordChangeSerializer,
 )
 from django.contrib.auth import authenticate, get_user_model
@@ -73,44 +72,6 @@ def resign(request):
         )
 
 
-@extend_schema(
-    tags=["Accounts"],
-    summary="로그인",
-    description="로그인하여 토큰 발급",
-    request=UserRequestSerializer,
-    methods=["POST"],
-    parameters=[
-        OpenApiParameter(
-            "email/password",
-            type=dict,
-            description="Json 형태로 Body로 전달",
-            required=True,
-        )
-    ],
-    examples=[
-        OpenApiExample(
-            name="입력 예제",
-            request_only=True,
-            value={"email": "admin@example.com", "password": "password"},
-        ),
-        OpenApiExample(
-            name="결과 예제",
-            response_only=True,
-            status_codes=[
-                200,
-            ],
-            value={"access": "str", "refresh": "str"},
-        ),
-        OpenApiExample(
-            name="실패 예제",
-            response_only=True,
-            status_codes=[
-                400,
-            ],
-            value={"error": "올바르지 않은 이메일"},
-        ),
-    ],
-)
 @api_view(["POST"])
 @authentication_classes([])
 @permission_classes([AllowAny])

@@ -11,10 +11,10 @@ from rest_framework.pagination import PageNumberPagination
 
 class ProductListCreateView(APIView):
     permission_classes = [IsAuthenticatedOrReadOnly]  # 인증된 사용자만 접근 가능
-
+    
     def get(self, request):
         # 모든 상품 목록 조회
-        products = Products.objects.all().order_by('-created_at')
+        products = Products.objects.all().order_by("-created_at")
 
         paginator = PageNumberPagination()
         paginator.page_size = 5
@@ -24,11 +24,6 @@ class ProductListCreateView(APIView):
         # return Response(serializer.data)
         return paginator.get_paginated_response(serializer.data)
 
-    @extend_schema(
-        tags=["Products"],
-        description="Products 생성을 위한 API",
-        request=ProductSerializer,
-    )
     def post(self, request):
         # 새로운 상품 생성
         serializer = ProductSerializer(data=request.data, context={"request": request})
@@ -117,9 +112,11 @@ class ProductLikeView(APIView):
 
         product.remove_like(request.user)
         return Response({"detail": "Unliked successfully."}, status=status.HTTP_200_OK)
-    
+
+
 class CategoryListView(APIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
+
     def get(self, request):
         categories = Category.objects.all()  # 모든 카테고리 가져오기
         serializer = CategorySerializer(categories, many=True)  # 직렬화
