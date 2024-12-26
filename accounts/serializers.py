@@ -6,11 +6,6 @@ from rest_framework.exceptions import ValidationError
 User = get_user_model()
 
 
-class UserRequestSerializer(serializers.Serializer):
-    email = serializers.CharField(max_length=100)
-    password = serializers.CharField(max_length=100)
-
-
 class SignupSerializer(serializers.ModelSerializer):
     password = serializers.CharField(
         write_only=True, required=True, validators=[validate_password]

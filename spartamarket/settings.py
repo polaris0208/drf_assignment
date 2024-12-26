@@ -160,9 +160,10 @@ SIMPLE_JWT = {
 
 # SPECTACULAR 설정
 SPECTACULAR_SETTINGS = {
-    'TITLE': 'DRF RESTful API',
-    'DESCRIPTION': 'Django DRF API Doc',
+    'TITLE': 'SpartaMarket',
+    'DESCRIPTION': 'DRF API Doc',
     'VERSION': '1.0.0',
+    'COMPONENT_SPLIT_REQUEST': True
 }
 
 
