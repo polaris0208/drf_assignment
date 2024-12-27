@@ -1085,7 +1085,7 @@ admin.site.register(Category, CategoryAdmin)
 
 ### 회원 탈퇴
 
-|[¶](#accounts)|회원탈퇴|DELETE|JWT|IsAuthenticated|access|`accounts/resign/`|-|
+|[¶](#accounts)|회원탈퇴|DELETE|JWT|Authenticated|access|`accounts/resign/`|-|
 |-|-|-|-|-|-|-|-|
 
 #### Request
@@ -1102,7 +1102,7 @@ admin.site.register(Category, CategoryAdmin)
     - `password` : 로그인된 상태에서 비밀번호만 확인
 
     ```json
-    {"password": "qwer1234!@",}
+    {"password": "qwer1234!@"}
     ```
 
 #### 성공 : 204 No Content
@@ -1187,7 +1187,7 @@ admin.site.register(Category, CategoryAdmin)
 
 ### 프로필 조회
 
-|[¶](#accounts)|프로필 조회|GET|JWT|IsAuthenticated|access|`accounts/profile/`|본인|
+|[¶](#accounts)|조회|GET|JWT|Authenticated|access|`accounts/profile/`|본인|
 |-|-|-|-|-|-|-|-|
 
 #### Request
@@ -1224,7 +1224,7 @@ admin.site.register(Category, CategoryAdmin)
 
 ### 프로필 수정
 
-|[¶](#accounts)|프로필 수정|PUT / PATCH|JWT|IsAuthenticated|access|`accounts/profile/`|본인|
+|[¶](#accounts)|수정|PUT / PATCH|JWT|Authenticated|access|`accounts/profile/`|본인|
 |-|-|-|-|-|-|-|-|
 
 #### Request
@@ -1266,7 +1266,7 @@ admin.site.register(Category, CategoryAdmin)
 
 ### 비밀번호 변경
 
-|[¶](#accounts)|비밀번호 변경|POST|JWT|IsAuthenticated|access|`accounts/change-password/`|본인|
+|[¶](#accounts)|비밀번호 변경|POST|JWT|Authenticated|access|`accounts/change-password/`|본인|
 |-|-|-|-|-|-|-|-|
 
 #### Request
@@ -1305,7 +1305,7 @@ admin.site.register(Category, CategoryAdmin)
 
 ### 팔로우
 
-|[¶](#accounts)|팔로우|POST|JWT|IsAuthenticated|access|`accounts/<int:user_pk>/follow/`|본인 제외|
+|[¶](#accounts)|팔로우|POST|JWT|Authenticated|access|`accounts/<int:user_pk>/follow/`|본인 제외|
 |-|-|-|-|-|-|-|-|
 
 #### Request
@@ -1348,30 +1348,30 @@ admin.site.register(Category, CategoryAdmin)
 
 ## products
 
-|상세|내용|유형|인증|권한|토큰|URL|본인 여부|
-|:---|:---|:---|:---|:---|:---|:---|:---|
-|[¶](#상품-조회)|상품 조회|GET|IsAuthenticatedOrReadOnly|IsAuthenticatedOrReadOnly|-|`products/`|-|
-|[¶](#상품-생성)|상품 생성|POST|IsAuthenticatedOrReadOnly|IsAuthenticated|access|`products/`|-|
-|[¶](#상품-상세)|상품 상세|GET|IsAuthenticatedOrReadOnly|IsAuthenticatedOrReadOnly|-|`products/<int:pk>/`|-|
-|[¶](#상품-수정)|상품 수정|PUT|IsAuthenticatedOrReadOnly|IsAuthenticated|access|`products/<int:pk>/`|본인|
-|[¶](#상품-제거)|상품 제거|DELETE|IsAuthenticatedOrReadOnly|IsAuthenticated|access|`products/<int:pk>/`|본인|
-|[¶](#상품-좋아요-찜)|상품 좋아요/찜|POST|IsAuthenticated|IsAuthenticated|access|`products/<int:pk>/like/`|본인 제외|
-|[¶](#상품-좋아요-찜-취소)|상품 좋아요/찜 취소|DELETE|IsAuthenticated|IsAuthenticated|access|`products/<int:pk>/like/`|본인 제외|
-|[¶](#카테고리-조회)|카테고리 조회|GET|IsAuthenticatedOrReadOnly|IsAuthenticatedOrReadOnly|-|`categories/`|-|
+|상세|내용|유형|URL|
+|:---|:---|:---|:---|
+|[¶](#상품-조회)|상품 조회|GET|`products/`|
+|[¶](#상품-생성)|상품 생성|POST|`products/`|
+|[¶](#상품-상세)|상품 상세|GET|`products/<int:pk>/`|
+|[¶](#상품-수정)|상품 수정|PUT|`products/<int:pk>/`|
+|[¶](#상품-제거)|상품 제거|DELETE|`products/<int:pk>/`|
+|[¶](#상품-좋아요-찜)|상품 좋아요/찜|POST|`products/<int:pk>/like/`|
+|[¶](#상품-좋아요-찜-취소)|상품 좋아요/찜 취소|DELETE|`products/<int:pk>/like/`|
+|[¶](#카테고리-조회)|카테고리 조회|GET|`categories/`|
 
 <hr>
 
 ### 상품 조회
 -  `?page=<int:page_number>` : 페이지 이동
 
-|[¶](#products)|상품 조회|GET|IsAuthenticatedOrReadOnly|IsAuthenticatedOrReadOnly|-|`products/`|-|
-|-|-|-|-|-|-|-|-|
+|[¶](#products)|조회|GET|Authenticated / ReadOnly|access / -|`products/`|-|
+|-|-|-|-|-|-|-|
 
 #### Request
 
 |Auth|Body|
 |-|-|
-|-|-|
+|access / - |-|
 
 - **Auth**
     - **Bearer Token**
@@ -1425,8 +1425,8 @@ admin.site.register(Category, CategoryAdmin)
 
 ### 상품 생성
 
-|[¶](#상품-생성)|상품 생성|POST|IsAuthenticatedOrReadOnly|IsAuthenticated|access|`products/`|-|
-|-|-|-|-|-|-|-|-|
+|[¶](#상품-생성)|생성|POST|Authenticated|access|`products/`|-|
+|-|-|-|-|-|-|-|
 
 #### Request
 
@@ -1492,14 +1492,14 @@ admin.site.register(Category, CategoryAdmin)
 
 ### 상품 상세
 
-|[¶](#products)|상품 상세|GET|IsAuthenticatedOrReadOnly|IsAuthenticatedOrReadOnly|-|`products/<int:pk>/`|-|
-|-|-|-|-|-|-|-|-|
+|[¶](#products)|상세|GET|Authenticated / ReadOnly|access / -|`products/<int:pk>/`|-|
+|-|-|-|-|-|-|-|
 
 #### Request
 
 |Auth|Body|
 |-|-|
-|access|-|
+|access / -|-|
 
 - **Auth**
     - **Bearer Token**
@@ -1549,8 +1549,8 @@ admin.site.register(Category, CategoryAdmin)
 
 ### 상품 수정
 
-|[¶](#products)|상품 수정|PUT|IsAuthenticatedOrReadOnly|IsAuthenticated|access|`products/<int:pk>/`|본인|
-|-|-|-|-|-|-|-|-|
+|[¶](#products)|수정|PUT|Authenticated|access|`products/<int:pk>/`|본인|
+|-|-|-|-|-|-|-|
 
 #### Request
 
@@ -1626,8 +1626,8 @@ admin.site.register(Category, CategoryAdmin)
 
 ### 상품 제거
 
-|[¶](#products)|상품 제거|DELETE|IsAuthenticatedOrReadOnly|IsAuthenticated|access|`products/<int:pk>/`|본인|
-|-|-|-|-|-|-|-|-|
+|[¶](#products)|제거|DELETE|Authenticated|access|`products/<int:pk>/`|본인|
+|-|-|-|-|-|-|-|
 
 #### Request
 
@@ -1657,8 +1657,8 @@ admin.site.register(Category, CategoryAdmin)
 
 ### 상품 좋아요 찜
 
-|[¶](#products)|상품 좋아요/찜|POST|IsAuthenticated|IsAuthenticated|access|`products/<int:pk>/like/`|본인 제외|
-|-|-|-|-|-|-|-|-|
+|[¶](#products)|좋아요/찜|POST|Authenticated|access|`products/<int:pk>/like/`|본인 제외|
+|-|-|-|-|-|-|-|
 
 #### Request
 
@@ -1688,8 +1688,8 @@ admin.site.register(Category, CategoryAdmin)
 
 ### 상품 좋아요 찜 취소
 
-|[¶](#products)|상품 좋아요/찜 취소|DELETE|IsAuthenticated|IsAuthenticated|access|`products/<int:pk>/like/`|본인 제외|
-|-|-|-|-|-|-|-|-|
+|[¶](#products)|좋아요/찜 취소|DELETE|Authenticated|access|`products/<int:pk>/like/`|본인 제외|
+|-|-|-|-|-|-|-|
 
 #### Request
 
@@ -1719,14 +1719,14 @@ admin.site.register(Category, CategoryAdmin)
 
 ### 카테고리 조회
 
-|[¶](#products)|카테고리 조회|GET|IsAuthenticatedOrReadOnly|IsAuthenticatedOrReadOnly|-|`categories/`|-|
-|-|-|-|-|-|-|-|-|
+|[¶](#products)|카테고리|GET|Authenticated / ReadOnly|access / -|`categories/`|-|
+|-|-|-|-|-|-|-|
 
 #### Request
 
 |Auth|Body|
 |-|-|
-|access|-|
+|access / -|-|
 
 - **Auth**
     - **Bearer Token**
