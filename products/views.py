@@ -54,7 +54,7 @@ class ProductDetailView(APIView):
         # 상품 수정 권한 체크 (자신의 상품만 수정 가능)
         if product.author != request.user:
             return Response(
-                {"detail": "You do not have permission to edit this product."},
+                {"detail": "권한이 없습니다."},
                 status=status.HTTP_403_FORBIDDEN,
             )
 
@@ -71,13 +71,13 @@ class ProductDetailView(APIView):
         # 상품 삭제 권한 체크 (자신의 상품만 삭제 가능)
         if product.author != request.user:
             return Response(
-                {"detail": "You do not have permission to delete this product."},
+                {"detail": "권한이 없습니다."},
                 status=status.HTTP_403_FORBIDDEN,
             )
 
         product.delete()
         return Response(
-            {"detail": "Product deleted successfully."},
+            {"detail": "상품이 삭제되었습니다."},
             status=status.HTTP_204_NO_CONTENT,
         )
 
@@ -92,12 +92,12 @@ class ProductLikeView(APIView):
         # 자신이 작성한 상품에는 좋아요를 추가할 수 없음
         if product.author == request.user:
             return Response(
-                {"detail": "You cannot like your own product."},
+                {"detail": "자신의 상품은 좋아요/찜 불가."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
         product.add_like(request.user)
-        return Response({"detail": "Liked successfully."}, status=status.HTTP_200_OK)
+        return Response({"detail": "상품 좋아요/찜 성공."}, status=status.HTTP_200_OK)
 
     def delete(self, request, pk):
         # 좋아요 제거
@@ -106,12 +106,12 @@ class ProductLikeView(APIView):
         # 자신이 작성한 상품에는 좋아요를 제거할 수 없음
         if product.author == request.user:
             return Response(
-                {"detail": "You cannot unlike your own product."},
+                {"detail": "자신의 상품은 좋아요/찜 취소 불가."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
         product.remove_like(request.user)
-        return Response({"detail": "Unliked successfully."}, status=status.HTTP_200_OK)
+        return Response({"detail": "상품 좋아요/찜 취소."}, status=status.HTTP_200_OK)
 
 
 class CategoryListView(APIView):

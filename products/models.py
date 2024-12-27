@@ -17,8 +17,8 @@ def products_image_path(instance, filename):
     return f"products/{instance.user.username}/{filename}"
 
 def validation_hashtag(value):
-    if not re.match(r"^[0-9a-zAZ_]+$", value):
-        raise ValidationError("Invalid hashtag format.")
+    if not re.match(r"^[0-9a-zA-Z가-힣_]+$", value):
+        raise ValidationError("올바르지 않은 해시태그 형식.")
 
 class HashTag(models.Model):
     name = models.CharField(max_length=50, unique=True, validators=[validation_hashtag])
@@ -61,12 +61,12 @@ class Products(models.Model):
 
     def add_like(self, user):
         if self.author == user:
-            raise ValidationError("You cannot like your own product.")
+            raise ValidationError("자신의 상품은 좋아요/찜 불가")
         self.like_user.add(user)
 
     def remove_like(self, user):
         if self.author == user:
-            raise ValidationError("You cannot unlike your own product.")
+            raise ValidationError("자신의 상품은 좋아요/찜 취소 불가.")
         self.like_user.remove(user)
 
     def save(self, *args, **kwargs):
