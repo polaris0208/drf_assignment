@@ -1132,11 +1132,16 @@ admin.site.register(Category, CategoryAdmin)
 
 |Auth|Body|
 |-|-|
-|-|form-data|
+|-|json|
 
 - **Body**
-    - `email` : `admin@example.com`
-    - `password` : `password`
+
+```json
+{
+    "email" : "admin@example.com",
+    "password" : "password"
+}
+```
 
 #### 성공 : 200 OK
 
@@ -1741,3 +1746,86 @@ admin.site.register(Category, CategoryAdmin)
 ```
 
 ## 트러블 슈팅
+
+## 1. url 수정/추가 문제
+
+### 문제
+> 기능이 개발되는 과정에서 사용하는 **url**이 많아지고 수정하기 어려워지는 문제
+
+### 해결
+
+#### 복합 대입 연산자 활용
+- 새로 추가되는 **url** 분리하여 관리
+
+```py
+from .views import ChangePasswordView
+
+urlpatterns += [
+    path('change-password/', ChangePasswordView.as_view(), name='change-password'),
+]
+```
+
+## 2. 모델 수정 후 테스트 절차의 번거로움
+
+### 문제
+> 모델이 수정될 때마다 **DB** 초기화, `migrate` , 계정 생성 등의 작업에 시간 소요
+
+### 해결
+
+#### Docker 사용
+- `migrate`, `createsuperuser`, 까지 자동수행
+- `seed` 생성 제외
+    - 게시물 생성은 카테고리 생성 후 진행해야 함
+
+```yml
+    ...
+    environment:
+      DJANGO_SUPERUSER_USERNAME: admin
+      DJANGO_SUPERUSER_EMAIL: admin@example.com
+      DJANGO_SUPERUSER_PASSWORD: password
+    command: >
+      sh -c "
+      python manage.py makemigrations &&
+      python manage.py migrate &&
+      python manage.py createsuperuser --noinput || true &&
+      python manage.py runserver 0.0.0.0:8000
+      "
+```
+
+## 3. 해시태그 생성 오류
+
+### 문제
+> 한글로 작성한 경우 생성이 안되는 문제
+
+### 해결
+
+#### 조건에 한글 추가
+- 한글 조건 추가 : `가-힣`
+- 상품 설명에서 `#` 뒤에 붙은 `숫자/알파벳/한글` 을 추출하여 해시태그 생성
+
+```py
+def extract_hashtags(content):
+    hashtags = re.findall(r"#([0-9a-zA-Z가-힣_]+)", content)  # # 뒤에 오는 단어들 찾기
+    return hashtags
+
+class Products(models.Model):
+    ...
+    hashtags = models.ManyToManyField(HashTag, related_name='products', blank=True)
+    ...
+
+    def save(self, *args, **kwargs):
+            # 해시태그 자동 추출
+            hashtags = extract_hashtags(self.content)  # content에서 해시태그 추출
+            hashtag_objects = []
+            
+            # 해시태그 객체가 없으면 생성하여 리스트에 추가
+            for hashtag in hashtags:
+                hashtag_obj, created = HashTag.objects.get_or_create(name=hashtag)
+                hashtag_objects.append(hashtag_obj)
+            
+            # 먼저 객체를 저장
+            super().save(*args, **kwargs)
+            
+            # 그 후에 해시태그 연결
+            self.hashtags.set(hashtag_objects)
+```
