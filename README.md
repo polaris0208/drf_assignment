@@ -1018,16 +1018,16 @@ admin.site.register(Category, CategoryAdmin)
 
 ## accounts
 
-|상세|내용|유형|URL|본인 여부|
-|:---|:---|:---|:---|:---|:---|:---|:---|
-|[¶](#회원가입)|회원가입|POST||`accounts/signup/`|-|
-|[¶](#회원-탈퇴)|회원 탈퇴|DELETE|`accounts/resign/`|-|
-|[¶](#로그인)|로그인|POST|`accounts/login/`|-|
-|[¶](#로그아웃)|로그아웃|POST|`accounts/logout/`|-|
-|[¶](#프로필-조회)|프로필 조회|GET|`accounts/profile/`|본인|
-|[¶](#프로필-수정)|프로필 수정|PUT / PATCH|`accounts/profile/`|본인|
-|[¶](#비밀번호-변경)|비밀번호 변경|POST|`accounts/change-password/`|본인|
-|[¶](#팔로우)|팔로우|POST|`accounts/<int:user_pk>/follow/`|본인 제외|
+|상세|내용|유형|URL|
+|:---|:---|:---|:---|
+|[¶](#회원가입)|회원가입|POST|`accounts/signup/`|
+|[¶](#회원-탈퇴)|회원 탈퇴|DELETE|`accounts/resign/`|
+|[¶](#로그인)|로그인|POST|`accounts/login/`|
+|[¶](#로그아웃)|로그아웃|POST|`accounts/logout/`|
+|[¶](#프로필-조회)|프로필 조회|GET|`accounts/profile/`|
+|[¶](#프로필-수정)|프로필 수정|PUT / PATCH|`accounts/profile/`|
+|[¶](#비밀번호-변경)|비밀번호 변경|POST|`accounts/change-password/`|
+|[¶](#팔로우)|팔로우|POST|`accounts/<int:user_pk>/follow/`|
 
 
 <hr>
